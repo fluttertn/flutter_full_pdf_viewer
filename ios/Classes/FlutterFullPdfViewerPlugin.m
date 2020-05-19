@@ -1,5 +1,5 @@
 @import UIKit;
-
+#import <WebKit/WebKit.h>
 #import "FlutterFullPdfViewerPlugin.h"
 
 @interface FlutterFullPdfViewerPlugin ()
@@ -8,7 +8,7 @@
 @implementation FlutterFullPdfViewerPlugin{
     FlutterResult _result;
     UIViewController *_viewController;
-    UIWebView *_webView;
+    WKWebView *_webView;
 }
 
 +(UIViewController *)getCurrentVC {
@@ -77,9 +77,7 @@
         CGRect rc = [self parseRect:rect];
         
         if (_webView == nil){
-            _webView = [[UIWebView alloc] initWithFrame:rc];
-            _webView.scalesPageToFit = true;
-            
+            _webView = [[WKWebView alloc] initWithFrame:rc];
             NSURL *targetURL = [NSURL fileURLWithPath:path];
             NSURLRequest *request = [NSURLRequest requestWithURL:targetURL];
             [_webView loadRequest:request];
