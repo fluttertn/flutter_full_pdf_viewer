@@ -73,18 +73,16 @@
         
         NSDictionary *rect = call.arguments[@"rect"];
         NSString *path = call.arguments[@"path"];
-        
         CGRect rc = [self parseRect:rect];
-        
         if (_webView == nil){
             _webView = [[WKWebView alloc] initWithFrame:rc];
             NSURL *targetURL = [NSURL fileURLWithPath:path];
-            NSURLRequest *request = [NSURLRequest requestWithURL:targetURL];
-            [_webView loadRequest:request];
+            NSString *documentsPath = [NSHomeDirectory()     stringByAppendingPathComponent:@"Documents"];
+            NSURL *docURL = [NSURL fileURLWithPath:documentsPath];
+            [_webView loadFileURL:targetURL allowingReadAccessToURL:docURL];
             _viewController = [FlutterFullPdfViewerPlugin getCurrentVC];
             [_viewController.view addSubview:_webView];
         }
-        
     } else if ([@"resize" isEqualToString:call.method]) {
         if (_webView != nil) {
             NSDictionary *rect = call.arguments[@"rect"];
